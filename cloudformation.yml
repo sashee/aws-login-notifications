@@ -3,25 +3,10 @@ Parameters:
   CloudTrailLogGroup:
     Type: String
     Description: "The CloudWatch log group where CloudTrail writes the logs"
-Resources:
   SNSTopic:
-    Type: "AWS::SNS::Topic"
-    Properties:
-      DisplayName: "User sign in"
-  TopicPolicy:
-    Type: "AWS::SNS::TopicPolicy"
-    Properties:
-      Topics:
-        - !Ref SNSTopic
-      PolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: events.amazonaws.com
-            Action:
-              - "sns:Publish"
-            Resource: !Ref SNSTopic
+    Type: String
+    Description: "The SNS topic to send notifications to"
+Resources:
   LoginMetricFilter:
     Type: AWS::Logs::MetricFilter
     Properties:
@@ -45,6 +30,3 @@ Resources:
       ActionsEnabled: true
       AlarmActions:
       - !Ref SNSTopic
-Outputs:
-  SNSTopic:
-    Value: !Ref SNSTopic
